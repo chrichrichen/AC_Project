@@ -1,6 +1,32 @@
-<!-- dashboard.hbs -->
-<h1>Dashboard Page</h1>
-<p>Current status: {{ status }}</p>
-<form action="/dashboard" method="POST">
-  <button type="submit">Clock in/out</button>
-</form>
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Attendance System</title>
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+
+<body>
+  <h1>Attendance System</h1>
+  <p>Now: <span id="clock"></span></p>
+  <button id="clock-in-btn">Clock In</button>
+  <button id="clock-out-btn">Clock Out</button>
+
+  <script>
+    function updateClock() {
+      var now = new Date();
+      var hours = now.getHours();
+      var minutes = now.getMinutes();
+      var seconds = now.getSeconds();
+      hours = (hours < 10 ? "0" : "") + hours;
+      minutes = (minutes < 10 ? "0" : "") + minutes;
+      seconds = (seconds < 10 ? "0" : "") + seconds;
+      var timeString = hours + ":" + minutes + ":" + seconds;
+      document.getElementById("clock").innerHTML = timeString;
+      setTimeout(updateClock, 1000);
+    }
+    updateClock();
+  </script>
+</body>
+
+</html>
