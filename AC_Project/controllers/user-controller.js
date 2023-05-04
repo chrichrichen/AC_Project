@@ -36,11 +36,13 @@ const userController = {
   
   signIn: (req,res)=>{
     req.flash('success_messages', 'Logged in Successfully')
-    res.redirect('/clocks')
+    res.redirect('/dashboard')
     
   },
   logout: (req,res)=>{
     req.flash('success_messages',`Logged out Successfully`)
+    req.logout()
+    res.redirect('/signin')
   },
   passwordPage:(req,res)=>{
     res.render('password')

@@ -14,7 +14,7 @@ router.post('/signup',userController.signUp)
 
 
 router.get('/signin', userController.signInPage)
-router.post('/signin', passport.authenticate('local', { failureRedirect: '/', failureFlash: true }),(req, res, next) => {
+router.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }),(req, res, next) => {
   console.log('User authenticated:', req.user)
   next()
 },userController.signIn)
