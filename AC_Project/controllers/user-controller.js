@@ -5,7 +5,30 @@ const bcrypt = require('bcryptjs')
 
 const userController = {
   
-
+  signUpPage:(req,res)=>{
+    res.render('signup')
+  },
+ 
+  signUp: (req, res, next) => { 
+    
+    if (req.body.password !== req.body.passwordCheck) throw new Error('Passwords do not match!')
+   
+    
+    User.findOne({ where: { username: req.body.username } })
+      .then(user => {
+        if (user) throw new Error('Username already exists!') 
+        return bcrypt.hash(req.body.password, 10) 
+      })
+      .then(hash => User.create({  
+        username: req.body.username,
+        password: hash
+      }))
+      .then(() => {
+        req.flash('success_messages', '成功註冊帳號！') 
+        res.redirect('/signin')
+      })
+      .catch(err=>next(err))
+  },
   
   signInPage:(req,res)=>{
     res.render('signin')
