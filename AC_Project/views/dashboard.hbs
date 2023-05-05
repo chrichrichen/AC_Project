@@ -1,32 +1,21 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
-  <title>Attendance System</title>
-  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>打卡系統</title>
 </head>
 
 <body>
-  <h1>Attendance System</h1>
-  <p>Now: <span id="clock"></span></p>
-  <button id="clock-in-btn">Clock In</button>
-  <button id="clock-out-btn">Clock Out</button>
-
-  <script>
-    function updateClock() {
-      var now = new Date();
-      var hours = now.getHours();
-      var minutes = now.getMinutes();
-      var seconds = now.getSeconds();
-      hours = (hours < 10 ? "0" : "") + hours;
-      minutes = (minutes < 10 ? "0" : "") + minutes;
-      seconds = (seconds < 10 ? "0" : "") + seconds;
-      var timeString = hours + ":" + minutes + ":" + seconds;
-      document.getElementById("clock").innerHTML = timeString;
-      setTimeout(updateClock, 1000);
-    }
-    updateClock();
-  </script>
+  <h1>打卡系統</h1>
+  <form action="/dashboard/attendance/clockin" method="post">
+    <button type="submit">上班打卡</button>
+  </form>
+  <form action="/dashboard/attendance/clockout" method="post">
+    <button type="submit">下班打卡</button>
+  </form>
 </body>
 
 </html>

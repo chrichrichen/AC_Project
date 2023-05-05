@@ -44,49 +44,52 @@ const userController = {
     req.logout()
     res.redirect('/signin')
   },
+  getDashboard:(req,res)=>{
+  res.render('dashboard')
+},
+
   passwordPage:(req,res)=>{
     res.render('password')
   },
-   updatePassword: async (req, res) => {
-    try {
-      const { oldPassword, newPassword, confirmPassword } = req.body;
-      const { id } = req.user;
+   updatePassword: (req, res, next) => {
+  const { oldPassword, newPassword, newPasswordCheck } = req.body;
+  const { id } = req.user;
 
-      if (!oldPassword || !newPassword || !confirmPassword) {
-        req.flash('error_messages', 'All fields are required');
-        return res.redirect('/password');
-      }
+  // 檢查密碼是否匹配
+  User.findOne({ where: { id } })
+    .then(user => {
+      if (!user) throw new Error('User not found');
+      console.log('Found user:', user);
 
-      if (newPassword !== confirmPassword) {
-        req.flash('error_messages', 'New password and confirm password do not match');
-        return res.redirect('/password');
-      }
+      return bcrypt.compare(oldPassword, user.password);
+    })
+    .then(match => {
+      if (!match) throw new Error('Incorrect password');
+      console.log('Password matched:', match);
 
-      const user = await User.findByPk(id);
-      if (!user) {
-        req.flash('error_messages', 'User not found');
-        return res.redirect('/password');
-      }
+      if (newPassword !== newPasswordCheck) throw new Error('Passwords do not match');
 
-      const isMatch = await bcrypt.compare(oldPassword, user.password);
-      if (!isMatch) {
-        req.flash('error_messages', 'Old password is incorrect');
-        return res.redirect('/password');
-      }
+      return bcrypt.hash(newPassword, 10);
+    })
+    .then(hash => {
+      console.log('Hashed password:', hash);
 
-      const salt = await bcrypt.genSalt(10);
-      const hash = await bcrypt.hash(newPassword, salt);
-
-      await user.update({ password: hash });
+      return User.update({ password: hash }, { where: { id } });
+    })
+    .then(() => {
+      console.log('Password updated successfully');
 
       req.flash('success_messages', 'Password updated successfully');
-      return res.redirect('/');
-    } catch (err) {
+      res.redirect('/dashboard');
+    })
+    .catch(err => {
       console.error(err);
-      req.flash('error_messages', 'Something went wrong');
-      res.redirect('/password');
-    }
-  },
+      next(err);
+    });
+},
+
+
+
   
 }
 
