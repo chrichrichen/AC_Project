@@ -27,8 +27,8 @@ router.post('/dashboard/attendance/clockout', authenticated, attendanceControlle
 
 
 
-router.get('/dashboard/password',authenticated, userController.passwordPage)
-router.post('/dashboard/password',authenticated, userController.updatePassword)
+router.get('/password',authenticated, userController.passwordPage)
+router.post('/password',authenticated, userController.updatePassword)
 
 router.use('/', (req, res) => res.redirect('/signin'))
 router.use('/', generalErrorHandler)
