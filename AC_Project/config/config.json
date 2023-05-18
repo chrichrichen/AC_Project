@@ -1,6 +1,6 @@
 {
   "development": {
-    "username": "acuser",
+    "username": "root",
     "password": "password",
     "database": "project",
     "host": "127.0.0.1",
@@ -8,7 +8,7 @@
     "operatorsAliases": false
   },
   "test": {
-    "username": "acuser",
+    "username": "root",
     "password": null,
     "database": "database_test",
     "host": "127.0.0.1",
@@ -16,6 +16,6 @@
     "operatorsAliases": false
   },
   "production": {
-   "use_env_variable": "CLEARDB_DATABASE_URL"
+    "use_env_variable": "CLEARDB_DATABASE_URL"
   }
 }

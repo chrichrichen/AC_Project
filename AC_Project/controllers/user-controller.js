@@ -1,5 +1,4 @@
-const db = require('../models')
-const {User} = db
+const {User} = require('../models')
 const bcrypt = require('bcryptjs')
 
 
