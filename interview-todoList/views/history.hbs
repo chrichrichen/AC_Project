@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Todo History</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Todo History</h1>
+
+    <ul id="historyList" class="list-group">
+      {{#each history}}
+      <li class="list-group-item">{{this}}</li>
+      {{/each}}
+    </ul>
+
+    <!-- Add History Form -->
+    <form id="addHistoryForm" method="POST" action="/todos/{{todoId}}/history">
+      <div class="form-group">
+        <label for="history">History:</label>
+        <textarea class="form-control" id="history" name="history" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Add History</button>
+    </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      
+      $('#addHistoryForm').submit(function (event) {
+        event.preventDefault();
+        const history = $('#history').val();
+        const url = $(this).attr('action');
+        $.post(url, { history: history }, function () {
+          const historyItem = `<li class="list-group-item">${history}</li>`;
+          $('#historyList').append(historyItem);
+          $('#history').val('');
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

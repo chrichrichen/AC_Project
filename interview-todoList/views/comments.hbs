@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+<head>
+  <title>Todo Comments</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Todo Comments</h1>
+
+    <ul id="commentsList" class="list-group">
+      {{#each comments}}
+      <li class="list-group-item">{{this.comment}} - {{this.commenter}}</li>
+      {{/each}}
+    </ul>
+
+    <!-- Add Comment Form -->
+    <form id="addCommentForm" method="POST" action="/todos/{{todoId}}/comments">
+      <div class="form-group">
+        <label for="comment">Comment:</label>
+        <input type="text" class="form-control" id="comment" name="comment" required>
+      </div>
+      <div class="form-group">
+        <label for="commenter">Commenter:</label>
+        <input type="text" class="form-control" id="commenter" name="commenter" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Add Comment</button>
+    </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      
+      $('#addCommentForm').submit(function (event) {
+        event.preventDefault();
+        const comment = $('#comment').val();
+        const commenter = $('#commenter').val();
+        const url = $(this).attr('action');
+        $.post(url, { comment: comment, commenter: commenter }, function (data) {
+          const commentItem = `<li class="list-group-item">${data.comment} - ${data.commenter}</li>`;
+          $('#commentsList').append(commentItem);
+          $('#comment').val('');
+          $('#commenter').val('');
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
