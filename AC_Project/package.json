@@ -17,15 +17,10 @@
     "express-handlebars": "^5.3.3",
     "express-session": "^1.17.2",
     "method-override": "^3.0.0",
-    "moment-timezone": "^0.5.43",
     "mysql2": "^2.3.3",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "sequelize": "^6.6.5",
     "sequelize-cli": "^6.6.0"
-  },
-  "engines":{
-    "node":"18.x",
-    "npm":"latest"
   }
 }
