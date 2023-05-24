@@ -14,13 +14,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Attendance.init({
-    user_id: DataTypes.INTEGER,
-    clock_in: DataTypes.DATE,
-    clock_out: DataTypes.DATE
-  }, {
-    sequelize,
-    modelName: 'Attendance',
-    underscored: true,
-  });
+  user_id: DataTypes.INTEGER,
+  clock_in: DataTypes.DATE,
+  clock_out: DataTypes.DATE,
+  isAbsent: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  }
+}, {
+  sequelize,
+  modelName: 'Attendance',
+  underscored: true,
+});
+
   return Attendance;
 };
