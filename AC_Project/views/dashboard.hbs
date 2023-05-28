@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>打卡系统</title>
+  <script>
+    function updateClock() {
+      var clockElement = document.getElementById("clock");
+      var currentTime = new Date();
+      var hours = currentTime.getHours();
+      var minutes = currentTime.getMinutes();
+      var seconds = currentTime.getSeconds();
+
+      // 添加前导零以保持时间格式一致
+      hours = (hours < 10 ? "0" : "") + hours;
+      minutes = (minutes < 10 ? "0" : "") + minutes;
+      seconds = (seconds < 10 ? "0" : "") + seconds;
+
+      // 构建时间字符串
+      var timeString = hours + ":" + minutes + ":" + seconds;
+
+      // 更新页面上的时间
+      clockElement.textContent = timeString;
+
+      // 每秒钟更新一次时间
+      setTimeout(updateClock, 1000);
+    }
+
+    function recordClockIn() {
+      var currentTime = new Date();
+      var hours = currentTime.getHours();
+      var minutes = currentTime.getMinutes();
+      var seconds = currentTime.getSeconds();
+
+      // 添加前导零以保持时间格式一致
+      hours = (hours < 10 ? "0" : "") + hours;
+      minutes = (minutes < 10 ? "0" : "") + minutes;
+      seconds = (seconds < 10 ? "0" : "") + seconds;
+
+      // 构建时间字符串
+      var timeString = hours + ":" + minutes + ":" + seconds;
+
+      // 将打卡时间添加到本地存储
+      var clockInRecords = localStorage.getItem("clockInRecords") || "";
+      clockInRecords += "上班打卡时间：" + timeString + "<br>";
+      localStorage.setItem("clockInRecords", clockInRecords);
+    }
+
+    function recordClockOut() {
+      var currentTime = new Date();
+      var hours = currentTime.getHours();
+      var minutes = currentTime.getMinutes();
+      var seconds = currentTime.getSeconds();
+
+      // 添加前导零以保持时间格式一致
+      hours = (hours < 10 ? "0" : "") + hours;
+      minutes = (minutes < 10 ? "0" : "") + minutes;
+      seconds = (seconds < 10 ? "0" : "") + seconds;
+
+      // 构建时间字符串
+      var timeString = hours + ":" + minutes + ":" + seconds;
+
+      // 将打卡时间添加到本地存储
+      var clockOutRecords = localStorage.getItem("clockOutRecords") || "";
+      clockOutRecords += "下班打卡时间：" + timeString + "<br>";
+      localStorage.setItem("clockOutRecords", clockOutRecords);
+    }
+
+    // 当页面加载完成时开始更新时间
+    window.onload = function () {
+      updateClock();
+
+      // 从本地存储中读取并显示打卡记录
+      var clockInRecords = localStorage.getItem("clockInRecords");
+      var clockOutRecords = localStorage.getItem("clockOutRecords");
+      document.getElementById("clock-in-record").innerHTML = clockInRecords || "";
+      document.getElementById("clock-out-record").innerHTML = clockOutRecords || "";
+    };
+  </script>
+  <style>
+    #clock {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>打卡系统</h1>
+  <div id="clock"></div>
+  <form action="/dashboard/attendance/clockin" method="post" onsubmit="recordClockIn()">
+    <button type="submit">上班打卡</button>
+  </form>
+  <form action="/dashboard/attendance/clockout" method="post" onsubmit="recordClockOut()">
+    <button type="submit">下班打卡</button>
+  </form>
+  <form action="/dashboard/password" method="get">
+    <button type="submit">Update Password</button>
+  </form>
+  <div>
+    <h2>打卡紀錄</h2>
+    <ul>
+      <li id="clock-in-record"></li>
+      <li id="clock-out-record"></li>
+    </ul>
+  </div>
+</body>
+
+</html>
